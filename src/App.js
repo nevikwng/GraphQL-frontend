@@ -18,8 +18,17 @@ const getUsersQuery = gql`
         completed
     }
 }
+`
+const postuser = gql`
+{
+  sql {
+    orderId
+    MemberId
+    Total
+  }
+}
 `;
-const add = async content => {
+const testTodoadd = async content => {
   return await client.mutate({
     // 引數,content對應的下面的$content
     variables: { content },
@@ -39,6 +48,29 @@ const add = async content => {
       return [{ query: getUsersQuery }];
     },
     awaitRefetchQueries: true,
+  })
+};
+
+const add = async (MemberId, Total) => {
+  console.log(MemberId, Total)
+  return await client.mutate({
+    // 引數,content對應的下面的$content
+    variables: { MemberId, Total },
+    mutation: gql`
+    mutation add($MemberId: String! $Total:String!) {
+       addTodo(MemberId: $MemberId,Total:$Total){
+         success
+      sql {
+        orderId
+        MemberId
+        Total
+      }
+  }
+}`, refetchQueries: () => {
+      return [{ query: postuser }];
+    },
+    awaitRefetchQueries: true,
+
   })
 };
 const App = () => {

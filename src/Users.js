@@ -6,12 +6,14 @@ import Addcontext from "./Compoment/AddContext";
 
 const getUsersQuery = gql`
 {
-    todoList {
-        _id
-        content
-        completed
-    }
-}
+    sql {
+        orderId
+        MemberId
+        Total
+       }
+  }
+  
+  
 `;
 
 const Users = ({ add }) => (
